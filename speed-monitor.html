@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Speed Monitor</title>
+  <style>
+    body {
+      text-align: center;
+      background-color: #f0f8ff; /* light blue background */
+      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      margin: 0;
+      padding: 20px;
+    }
+    h1 {
+      font-size: 55px;
+      color: #2c3e50;
+    }
+    label, input, button, p {
+      font-size: 26px;
+    }
+    .box {
+      border: 2px solid #444;
+      padding: 25px;
+      margin: auto;
+      width: 55%;
+      border-radius: 15px;
+      background: #ffffff;
+      box-shadow: 0px 4px 12px rgba(0,0,0,0.1);
+    }
+    button {
+      margin-top: 15px;
+      padding: 8px 18px;
+      font-size: 22px;
+      background-color: #27ae60;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #219150;
+    }
+    #feedback {
+      margin-top: 20px;
+      font-weight: bold;
+      color: #333;
+    }
+  </style>
+</head>
+<body>
+  <main class="box">
+    <h1>Speed Monitor</h1>
+    <p>Enter the vehicle speed:</p>
+    <!-- form where the user enters speed -->
+    <form>
+      <label for="velocity">Speed:</label>
+      <input id="velocity" type="number" required />
+      <button id="analyze">Check</button>
+    </form>
+    <!-- for displaying the result -->
+    <p id="feedback">Points: </p>
+  </main>
+
+  <script>
+    // input, button, and output elements
+    const speedInput = document.getElementById("velocity");
+    const checkBtn = document.getElementById("analyze");
+    const feedback = document.getElementById("feedback");
+
+    // function to check speed of the car
+    function speedDetector(speed) {
+      const limit = 70; // speed limit
+      const step = 5; // every 5km/h above limit = 1 point
+
+      if (speed <= limit) {
+        // if speed is within limit, show Ok
+        feedback.textContent = "Ok";
+      } else {
+        // calculate points
+        const points = Math.floor((speed - limit) / step);
+
+        if (points > 12) {
+          feedback.textContent = "License suspended";
+        } else {
+          feedback.textContent = "Points: " + points;
+        }
+      }
+    }
+
+    // when button is clicked, run the speedDetector function
+    checkBtn.addEventListener("click", function(event) {
+      event.preventDefault();
+      const value = Number(speedInput.value); // get the number from input
+      speedDetector(value); // call the function with that number
+    });
+  </script>
+</body>
+</html>
